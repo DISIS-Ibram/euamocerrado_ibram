@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgis/postgis
+    container_name: postgres_euamocerrado
+    restart: always
+    environment:
+      POSTGRES_DB: euamocerrado
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db:/backup
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: ./backend
+    container_name: backend_euamocerrado
+    command: python manage.py runserver 0.0.0.0:8585
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8585:8585"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
+      - DATABASE_URL=postgres://postgres:123456@db:5432/euamocerrado
+
+volumes:
+  pgdata:

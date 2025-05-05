@@ -1,0 +1,14 @@
+eac-admin
+eac-backend
+eac-frontend
+layout
+data/pgdata
+data/cache
+data/media
+mvtmapserver/cache
+.dev_temp_data
+/data/media_bak
+/admin_new_bak
+/admin_new2_bak
+*_bak
+node_modules

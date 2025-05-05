@@ -1,0 +1,26 @@
+FROM node:14 as node
+# RUN apt-get update && apt-get install -y yarn
+
+WORKDIR /app
+ADD ./ /app
+
+
+#RUN npm install
+# RUN yarn
+# RUN yarn run build
+RUN npm install
+RUN npm run build
+CMD cp -R /app/dist /dist/frontend
+# RUN yarn run generate-icons
+
+# # CMD ["npm", "run", "start"]
+# #stage do ngix
+# FROM nginx as nginx
+# COPY --from=node /app/dist/ /usr/share/nginx/html/
+# COPY --from=node /app/entrypoint.sh /entrypoint.sh
+# WORKDIR /usr/share/nginx/html/
+# # RUN sed -E -i -e 's|(window.____BACKEND_URL=).*|\1\"'"$VUE_APP_BACKEND_URL"'\"|g' /usr/share/nginx/html/index.html 
+# # RUN sed -E -i -e 's|(window.____MVTMAPSERVER_URL=).*|\1\"'"$VUE_APP_MVTMAPSERVER_URL"'\"|g' /usr/share/nginx/html/index.html 
+# EXPOSE 80
+# WORKDIR /
+# ENTRYPOINT entrypoint.sh

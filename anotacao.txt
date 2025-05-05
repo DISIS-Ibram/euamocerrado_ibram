@@ -1,0 +1,92 @@
+## Rodando o backend
+Alterando o banckend para o pyhton 3.12
+Criar banco no postgresql
+Instalar o banco do WSL2
+Acessar o banco
+sudo -i -u postgres
+psql
+CREATE DATABASE euamocerrado;
+
+# Dump do banco
+sudo -i -u postgres
+psql -d euamocerrado -f 'caminho_do_arquivo_dump.sql'
+
+Erro gdal
+sudo apt update
+sudo apt install gdal-bin libgdal-dev
+
+# Install ImageMagick on Debian/Ubuntu
+sudo apt-get install libmagickwand-dev
+
+# Suporte ao postgis
+sudo apt-get install postgis postgresql-<versão>-postgis-<versão>
+sudo apt-get install postgis postgresql-16-postgis-3
+b. Habilitar a extensão PostGIS no banco de dados
+
+Após instalar o PostGIS, você precisa ativá-lo no banco de dados. Conecte-se ao banco de dados PostgreSQL com o comando psql:
+
+psql -h localhost -U postgres -d seu_banco_de_dados
+
+Com usuário root
+sudo -u postgres psql -d euamocerrado -f especies.sql
+
+# Criar extensão para o postgis
+psql -U postgres -d euamocerrado
+CREATE EXTENSION postgis;
+Veriifcar se deu certo
+SELECT PostGIS_Full_Version();
+
+
+sudo -i -u postgres
+psql
+\c seu_banco_de_dados
+
+Então, dentro do psql, execute o seguinte comando para habilitar a extensão:
+
+CREATE EXTENSION postgis;
+
+Se necessário, você também pode ativar outras extensões relacionadas ao PostGIS, como:
+
+CREATE EXTENSION postgis_topology;
+
+2. Verificar a instalação
+
+Para verificar se o PostGIS foi instalado corretamente, execute:
+
+SELECT PostGIS_Version();
+
+3. Reiniciar o servidor PostgreSQL
+
+Após a instalação da extensão, reinicie o servidor PostgreSQL para garantir que as alterações sejam aplicadas corretamente:
+
+sudo service postgresql restart
+
+# Rodar o backend
+docker build -t backend .
+
+
+Adicionar chave primaria nas tabelas
+\d+ tabela_nome
+Ver se tem a chave primária
+ALTER TABLE trilha_atrativotrilha ADD PRIMARY KEY (id);
+
+
+## Executar o docker
+# Criar a imagem
+docker build -t nome-da-imagem .
+
+# Rodar a imagem em um container
+docker run nome-da-imagem
+docker run -d -p 8000:8000 nome-da-imagem
+
+# Com terminal
+docker run -it nome-da-imagem /bin/bash
+docker run -it nome-da-imagem /bin/sh
+
+# DICA se quiser manter arquivos e mudanças temporariamente, você pode usar:
+docker run -it --name meu-container nome-da-imagem /bin/bash
+Depois você pode reentrar com:
+docker start -ai meu-container
+
+# Fazer um dump do banco
+sudo -u postgres pg_dump -d euamocerrado -Fc -f ./db-backup/euamocerrado_03_03_2025.dump
