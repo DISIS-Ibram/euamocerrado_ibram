@@ -1,3 +1,8 @@
+## Instalar python3-full
+sudo apt install python3-full
+Problema com o python3-xyz
+
+
 ## Rodando o backend
 Alterando o banckend para o pyhton 3.12
 Criar banco no postgresql

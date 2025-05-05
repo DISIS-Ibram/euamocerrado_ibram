@@ -12,3 +12,5 @@ mvtmapserver/cache
 /admin_new2_bak
 *_bak
 node_modules
+
+backend/venv
