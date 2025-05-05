@@ -1,12 +1,51 @@
-## Instalar python3-full
-sudo apt install python3-full
-Problema com o python3-xyz
-
-
 ## Rodando o backend
-Alterando o banckend para o pyhton 3.12
-Criar banco no postgresql
-Instalar o banco do WSL2
+# Antes de executar o backend deve ser instalado o MagicWand
+PIP: pip install Wand
+SO: sudo apt-get install libmagickwand-dev
+
+
+## POSTGRESQL
+# Fazer o restore do banco com usuário que não é autenticado para o banco
+sudo -u postgres pg_restore --no-owner --no-comments --no-privileges --no-tablespaces -Fc -d euamocerrado ./db/euamocerrado.dump
+
+# Fazer o restore do banco com usuário que é autenticado para o banco
+pg_restore -U postgres -h localhost -Fc -d euamocerrado ./backup/euamocerrado.dump
+
+# Instalar o banco postgresql o WSL2
+sudo apt update
+sudo apt upgrade
+sudo apt install postgresql postgresql-contrib
+
+# Iniciar o serviço
+sudo service postgresql start
+
+# Verificar se o serviço está rodando
+sudo service postgresql status
+
+# Acessar o shell do PostgreSQL
+sudo -i -u postgres
+psql
+
+# Criar banco no postgresql
+CREATE DATABASE meu_banco;
+CREATE USER meu_usuario WITH ENCRYPTED PASSWORD 'minha_senha';
+GRANT ALL PRIVILEGES ON DATABASE meu_banco TO meu_usuario;
+
+## Configuração opcional do postgresql
+# postgresql.conf
+sudo nano /etc/postgresql/12/main/postgresql.conf
+listen_addresses = '*'
+
+# pg_hba.conf
+sudo nano /etc/postgresql/12/main/pg_hba.conf
+host    all             all             0.0.0.0/0               md5
+
+# Reestart do serviço
+sudo service postgresql restart
+
+
+
+
 Acessar o banco
 sudo -i -u postgres
 psql
@@ -93,5 +132,34 @@ docker run -it --name meu-container nome-da-imagem /bin/bash
 Depois você pode reentrar com:
 docker start -ai meu-container
 
+
+
+
 # Fazer um dump do banco
 sudo -u postgres pg_dump -d euamocerrado -Fc -f ./db-backup/euamocerrado_03_03_2025.dump
+
+
+
+## DOCKER-COMPOSE
+docker-compose up --build
+
+## Fazer o backup do banco na imagem db do projeto
+# Restaurar o banco dentro do container
+# Depois que o banco estiver rodando, execute:
+docker exec -it postgres_euamocerrado bash
+pg_restore -U postgres -d euamocerrado /backup/euamocerrado.dump
+exit
+
+## Ajustar settings.py do Django
+# Use DATABASE_URL ou configure assim:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'euamocerrado',
+        'USER': 'postgres',
+        'PASSWORD': '123456',
+        'HOST': 'db',
+        'PORT': '5432',
+    }
+}
+

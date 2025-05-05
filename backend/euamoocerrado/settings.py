@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -98,39 +97,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'euamoocerrado.wsgi.application'
 
 
-db_host = os.environ['DB_HOST'] if 'DB_HOST' in  os.environ else "localhost"
-db_port = os.environ['DB_PORT'] if 'DB_PORT' in  os.environ else "5432"
-db_user = os.environ['DB_USER'] if 'DB_USER' in  os.environ else "postgres"
-db_pass = os.environ['DB_PASS'] if 'DB_PASS' in  os.environ else "123456"
-db_name = os.environ['DB_NAME'] if 'DB_NAME' in  os.environ else "euamoocerrado"
-
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-#         'NAME': db_name,
-#         'USER': db_user,
-#         'PASSWORD': db_pass,
-#         'HOST': db_host,
-#         'PORT': db_port,
-#     }
-# }
-
-## RODANDO LOCAL
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-#         'NAME': "euamocerrado",
-#         'USER': "postgres",
-#         'PASSWORD': "123456",
-#         'HOST': "localhost",
-#         'PORT': "5432",
-#     }
-# }
-
 
 # RODANDO DOCKER com BD DOCKER'
 DATABASES = {
@@ -140,6 +109,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': '123456',
         'HOST': 'db',
+        # 'HOST': 'localhost',
         'PORT': '5432',
     }
 }
